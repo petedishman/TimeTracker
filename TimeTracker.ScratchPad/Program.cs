@@ -31,13 +31,13 @@ namespace TimeTracker.ScratchPad
             // so in the actual TimeTracker process, what would we have
             // Every 5 minutes we'd want to be writing to the database
             // Don't need to be storing anything up for the whole day
-            UserActivitySampler activitySampler = new UserActivitySampler(userActivityMonitor, activeProcessHelper);
+            ProcessActivitySampler activitySampler = new ProcessActivitySampler(userActivityMonitor, activeProcessHelper);
 
             while (true)
             {
                 Thread.Sleep(30 * 1000);
 
-                UserActivityTimeSegment timeSegment = activitySampler.StartNewTimeSegment();
+                ProcessActivityTimeSegment timeSegment = activitySampler.StartNewTimeSegment();
 
                 if (timeSegment.IsActiveSegment)
                 {
@@ -51,7 +51,7 @@ namespace TimeTracker.ScratchPad
 
 
                 int secondsInSegment = timeSegment.TotalSecondsInSegment;
-                foreach (UserActivitySample sample in timeSegment.Samples)
+                foreach (ProcessActivitySample sample in timeSegment.Samples)
                 {
                     string sampleActivity;
                     int sampleDuration = (int)(((double)sample.Seconds / (double)secondsInSegment) * 100);

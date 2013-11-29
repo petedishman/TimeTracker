@@ -8,6 +8,16 @@ using System.Threading.Tasks;
 
 namespace TimeTracker.Core
 {
+    public interface IActiveProcessHelper
+    {
+        /// <summary>
+        /// Returns the currently active process
+        /// </summary>
+        /// <returns></returns>
+        ProcessInfo GetActiveProcess();
+    }
+
+
     public class ActiveProcessHelper : IActiveProcessHelper
     {
         public const string UnknownProcessTitle = "Unknown Process";

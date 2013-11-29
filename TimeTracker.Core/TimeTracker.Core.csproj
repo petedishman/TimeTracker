@@ -40,12 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveProcessHelper.cs" />
-    <Compile Include="ActivitySampler.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="ProcessActivitySample.cs" />
+    <Compile Include="ProcessActivitySampler.cs" />
     <Compile Include="IssueTracker.cs" />
-    <Compile Include="Process.cs" />
+    <Compile Include="ProcessInfo.cs" />
+    <Compile Include="ProcessActivityTimeSegment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActivityMonitor.cs" />
+    <Compile Include="UserActivityAggregator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />

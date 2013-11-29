@@ -43,3 +43,15 @@ IssueKey
 IssueTitle
 
 
+
+So I've got an object that I can intiialise and then every 5 minutes I can grab process 
+activity information from it.
+So, in Core I need a class that I create and start and that controls the above class.
+Every 5 minutes it should grab that data and publish it.
+I can then have classes listen to it to write to the db, and another to output to the screen.
+
+What's that called then?
+
+ 
+	
+
