@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TimeTracker.Core;
+using TimeTracker.Core.DataCollection;
+using TimeTracker.Core.DataCollection.UserActivity;
 
 namespace TimeTracker.ScratchPad
 {
@@ -37,7 +39,7 @@ namespace TimeTracker.ScratchPad
             {
                 Thread.Sleep(30 * 1000);
 
-                ProcessActivityTimeSegment timeSegment = activitySampler.StartNewTimeSegment();
+                UserActivityOverPeriod<ProcessInfo> timeSegment = activitySampler.StartNewTimeSegment();
 
                 if (timeSegment.IsActiveSegment)
                 {
@@ -49,16 +51,15 @@ namespace TimeTracker.ScratchPad
                     Console.WriteLine("This period was primarily inactive");
                 }
 
-
                 int secondsInSegment = timeSegment.TotalSecondsInSegment;
-                foreach (ProcessActivitySample sample in timeSegment.Samples)
+                foreach (UserActivity<ProcessInfo> sample in timeSegment.Samples)
                 {
                     string sampleActivity;
                     int sampleDuration = (int)(((double)sample.Seconds / (double)secondsInSegment) * 100);
 
                     if (sample.WasActive)
                     {
-                        sampleActivity = String.Format("{0}:{1}", sample.ProcessInfo.Name, sample.ProcessInfo.WindowTitle);
+                        sampleActivity = String.Format("{0}:{1}", sample.Details.Name, sample.Details.WindowTitle);
                     }
                     else
                     {

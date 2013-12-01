@@ -4,40 +4,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimeTracker.Core
+namespace TimeTracker.Core.DataCollection.UserActivity
 {
-    public class ProcessInfo
+    public class ProcessInfo : IEqualish<ProcessInfo>, IEquatable<ProcessInfo>
     {
         public ProcessInfo(string name, string windowTitle)
         {
             this.Name = name;
             this.WindowTitle = windowTitle;
         }
+
         public string Name { get; private set; }
         public string WindowTitle { get; private set; }
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            ProcessInfo processInfo = obj as ProcessInfo;
-            if (processInfo == null)
-            {
-                return false;
-            }
-
-            // There's scope here for treating processinfo objects as being the same even when there's slight differences
-            // That may be better to leave for a different function though
-            return (processInfo.Name == this.Name &&
-                    processInfo.WindowTitle == this.WindowTitle);
+            return Equals(obj as ProcessInfo);
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public bool IsEqualishTo(ProcessInfo other)
+        {
+            // we could do some clever matching on window titles
+            // like ignoring * for unsaved files and stuff
+            // for now though, we'll just do a straight equals check
+            return Equals(other);
+        }
+
+        public bool Equals(ProcessInfo other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return (other.Name == this.Name &&
+                    other.WindowTitle == this.WindowTitle);
         }
     }
 

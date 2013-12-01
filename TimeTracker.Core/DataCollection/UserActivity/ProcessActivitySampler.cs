@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TimeTracker.Core
+namespace TimeTracker.Core.DataCollection.UserActivity
 {
     // This class takes the two monitor classes
     // and fires every n milliseconds. It then samples what the user is doing
@@ -21,25 +21,25 @@ namespace TimeTracker.Core
 
             activitySampleTimer = new Timer(OnActivitySampleTimer, null, 0, ActivitySamplePeriodMilliSeconds);
 
-            this.timeSegment = new ProcessActivityTimeSegment();
+            this.timeSegment = new UserActivityOverPeriod<ProcessInfo>();
             TrackingPaused = false;
         }   
 
-        public ProcessActivityTimeSegment StartNewTimeSegment()
+        public UserActivityOverPeriod<ProcessInfo> StartNewTimeSegment()
         {
             // I probably need to lock access to this.timeSegment while we do this.
-            ProcessActivityTimeSegment oldTimeSegment;
+            UserActivityOverPeriod<ProcessInfo> oldTimeSegment;
             lock (lockObject)
             {
                 oldTimeSegment = this.timeSegment;
-                this.timeSegment = new ProcessActivityTimeSegment();
+                this.timeSegment = new UserActivityOverPeriod<ProcessInfo>();
             }
 
             return oldTimeSegment;
         }
 
         public bool TrackingPaused { get; set; }
-        private ProcessActivityTimeSegment timeSegment;
+        private UserActivityOverPeriod<ProcessInfo> timeSegment;
 
         private IUserActivityMonitor userActivityMonitor;
         private IActiveProcessHelper activeProcessHelper;

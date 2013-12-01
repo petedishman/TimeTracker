@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TimeTracker.Core
+namespace TimeTracker.Core.DataCollection.UserActivity
 {
     public interface IUserActivityMonitor
     {
