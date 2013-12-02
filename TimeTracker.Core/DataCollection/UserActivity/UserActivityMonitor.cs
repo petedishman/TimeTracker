@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TimeTracker.Core.Helpers;
 
 namespace TimeTracker.Core.DataCollection.UserActivity
 {
@@ -42,7 +43,7 @@ namespace TimeTracker.Core.DataCollection.UserActivity
             int lastInputTicks = 0;
             int idleTicks = 0;
 
-            if (GetLastInputInfo(ref lastInputInfo))
+            if (SafeNativeMethods.GetLastInputInfo(ref lastInputInfo))
             {
                 lastInputTicks = (int)lastInputInfo.dwTime;
                 idleTicks = systemUptime - lastInputTicks;
@@ -51,15 +52,6 @@ namespace TimeTracker.Core.DataCollection.UserActivity
             }
         }
 
-        [DllImport("user32.dll")]
-        static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-        // Struct we'll need to pass to the function
-        internal struct LASTINPUTINFO
-        {
-            public uint cbSize;
-            public uint dwTime;
-        }
 
         public DateTime LastUserActivityAt
         {

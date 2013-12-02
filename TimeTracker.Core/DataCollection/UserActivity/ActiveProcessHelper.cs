@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TimeTracker.Core.Helpers;
 
 namespace TimeTracker.Core.DataCollection.UserActivity
 {
@@ -25,7 +26,7 @@ namespace TimeTracker.Core.DataCollection.UserActivity
 
         public ProcessInfo GetActiveProcess()
         {
-            var activeProcess = GetForegroundProcessFromWindowHandle(GetForegroundWindow());
+            var activeProcess = GetForegroundProcessFromWindowHandle(SafeNativeMethods.GetForegroundWindow());
             if (activeProcess != null)
             {
                 return new ProcessInfo(activeProcess.ProcessName, activeProcess.MainWindowTitle);
@@ -41,7 +42,7 @@ namespace TimeTracker.Core.DataCollection.UserActivity
             try
             {
                 uint processId = 0;
-                if (GetWindowThreadProcessId(foregroundWindowHandle, out processId) > 0)
+                if (SafeNativeMethods.GetWindowThreadProcessId(foregroundWindowHandle, out processId) > 0)
                 {
                     return Process.GetProcessById((int)processId);
                 }
@@ -53,11 +54,5 @@ namespace TimeTracker.Core.DataCollection.UserActivity
 
             return null;
         }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
     }
 }
