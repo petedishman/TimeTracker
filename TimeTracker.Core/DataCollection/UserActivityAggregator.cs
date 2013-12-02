@@ -20,7 +20,7 @@ namespace TimeTracker.Core.DataCollection
 
     public delegate void UserActivitySampleEventHandler(object sender, UserActivitySampleEventArgs e);
 
-    public class UserActivityAggregator
+    public class UserActivityAggregator : IDisposable
     {
         public UserActivityAggregator(ProcessActivitySampler processActivitySampler)
         {
@@ -56,5 +56,33 @@ namespace TimeTracker.Core.DataCollection
         
         private Timer activitySampleTimer;
         private const int ActivitySamplePeriodMilliSeconds = 5 * 60 * 1000;
+
+        #region IDisposable
+        private bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources.
+                    processActivitySampler.Dispose();
+                    activitySampleTimer.Dispose();
+                }
+
+                // release any unmanaged resources here
+                disposed = true;
+            }
+        }
+        ~UserActivityAggregator()
+        {
+            Dispose(false);
+        }
+        #endregion
     }
 }

@@ -7,7 +7,7 @@ using TimeTracker.Core.Schema.Services;
 
 namespace TimeTracker.Core.Schema.Infrastructure
 {
-	public class SqlDataContext : IDataContext
+	public class SqlDataContext : IDataContext,  IDisposable
 	{
 		public SqlDataContext()
 		{
@@ -35,5 +35,31 @@ namespace TimeTracker.Core.Schema.Infrastructure
 
 		readonly TimeTrackerDataContext _context;
 
+        #region IDisposable
+        private bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources.
+                    _context.Dispose();
+                }
+
+                // release any unmanaged resources here
+                disposed = true;
+            }
+        }
+        ~SqlDataContext()
+        {
+            Dispose(false);
+        }
+        #endregion
 	}
 }

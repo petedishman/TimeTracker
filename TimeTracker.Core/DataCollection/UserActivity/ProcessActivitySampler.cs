@@ -10,7 +10,7 @@ namespace TimeTracker.Core.DataCollection.UserActivity
     // This class takes the two monitor classes
     // and fires every n milliseconds. It then samples what the user is doing
     // before adding that to a list that will average it out 
-    public class ProcessActivitySampler
+    public class ProcessActivitySampler : IDisposable
     {
         public ProcessActivitySampler(IUserActivityMonitor userActivityMonitor, IActiveProcessHelper activeProcessHelper)
         {
@@ -84,5 +84,32 @@ namespace TimeTracker.Core.DataCollection.UserActivity
         {
             return userActivityMonitor.SecondsSinceLastUserActivity < UserInactiveAfterNSeconds;
         }
+
+        #region IDisposable
+        private bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources.
+                    activitySampleTimer.Dispose();
+                }
+
+                // release any unmanaged resources here
+                disposed = true;
+            }
+        }
+        ~ProcessActivitySampler()
+        {
+            Dispose(false);
+        }
+        #endregion
     }
 }

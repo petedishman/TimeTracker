@@ -15,7 +15,7 @@ namespace TimeTracker.Core.DataCollection.UserActivity
         int SecondsSinceLastUserActivity { get; }
     }
 
-    public class UserActivityMonitor : IUserActivityMonitor
+    public class UserActivityMonitor : IUserActivityMonitor, IDisposable
     {
         private int idleForXSeconds = 0;
 
@@ -68,5 +68,32 @@ namespace TimeTracker.Core.DataCollection.UserActivity
                 return idleForXSeconds; 
             }
         }
+
+        #region IDisposable
+        private bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources.
+                    activityCheckTimer.Dispose();
+                }
+
+                // release any unmanaged resources here
+                disposed = true;
+            }
+        }
+        ~UserActivityMonitor()
+        {
+            Dispose(false);
+        }
+        #endregion
     }
 }
