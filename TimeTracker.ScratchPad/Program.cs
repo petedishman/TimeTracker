@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using TimeTracker.Core;
 using TimeTracker.Core.DataCollection;
 using TimeTracker.Core.DataCollection.UserActivity;
+using TimeTracker.Core.Schema.Entities;
+using TimeTracker.Core.Schema.Infrastructure;
+using TimeTracker.Core.Schema.Services;
 
 namespace TimeTracker.ScratchPad
 {
@@ -15,6 +18,34 @@ namespace TimeTracker.ScratchPad
     {
         static void Main(string[] args)
         {
+            IDataContext dataContext = new SqlDataContext();
+
+            var tse = dataContext.TimeSegments.FindAll().First();
+
+            Console.WriteLine(tse);
+
+            return;
+            DateTime startOfTimeSegment = new DateTime(2013, 12, 1, 23, 0, 0);
+            TimeSegment ts = new TimeSegment();
+            ts.StartOfTimeSegment = startOfTimeSegment;
+            ts.PrimaryUserActivity = new UserActivity() { ProcessName = "explorer.exe", WindowTitle = "c:\\", Seconds = 100, WasActive = true };
+            ts.PrimaryUserHint = new UserHint() { HintText = "Just testing", Seconds = 20, WasActive = true };
+            ts.AllUserActitivies = new List<UserActivityInTimeSegment>();
+            ts.AllUserHints = new List<UserHintInTimeSegment>();
+
+            var primaryActivity = new UserActivityInTimeSegment();
+            primaryActivity.Activity = ts.PrimaryUserActivity;
+            ts.AllUserActitivies.Add(primaryActivity);
+
+            var primaryHint = new UserHintInTimeSegment();
+            primaryHint.Hint = ts.PrimaryUserHint;
+            ts.AllUserHints.Add(primaryHint);
+
+            dataContext.TimeSegments.Add(ts);
+            dataContext.Commit();
+
+            return;
+
             var activeProcessHelper = new ActiveProcessHelper();
             var userActivityMonitor = new UserActivityMonitor();
 
