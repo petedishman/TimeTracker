@@ -155,3 +155,7 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 /amps-standalone/target
+/packages/Ninject.3.0.1.10
+/packages/Microsoft.SqlServer.Compact.4.0.8876.1
+/packages/EntityFramework.SqlServerCompact.6.0.1
+/packages/EntityFramework.6.0.1
