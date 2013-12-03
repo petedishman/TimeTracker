@@ -107,6 +107,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -116,6 +117,10 @@
       <Project>{771e237a-32c3-4459-a6a2-5ec79f88d949}</Project>
       <Name>TimeTracker.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
