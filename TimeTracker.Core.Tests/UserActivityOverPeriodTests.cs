@@ -116,17 +116,19 @@ namespace TimeTracker.Core.Tests
             userActivity.AddActiveSample(testActivity1);
             userActivity.AddActiveSample(testActivity1);
             userActivity.AddActiveSample(testActivity2);
+            userActivity.AddActiveSample(testActivity2);
 
             userActivity.AddActiveSample(testActivity4);
 
-            userActivity.TotalSecondsInSegment.Should().Be(7, "because 7 samples have been added");
+            userActivity.TotalSecondsInSegment.Should().Be(8, "because 8 samples have been added");
+            userActivity.PrimaryActivityInSegment.Should().Be(testActivity1, "because that's the primary activity!");
             foreach (var sample in userActivity.Samples)
             {
                 if (sample.WasActive)
                 {
                     if (sample.Details.IsEqualishTo(testActivity1))
                     {
-                        sample.Seconds.Should().Be(3, "because we added 2 other samples equalish to testActivity1");
+                        sample.Seconds.Should().Be(4, "because we added 3 other samples equalish to testActivity1");
                     }
                     else if (sample.Details.IsEqualishTo(testActivity4))
                     {
