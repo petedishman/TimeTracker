@@ -10,20 +10,100 @@ namespace TimeTracker.Core.Tests
     {
         private class TestUserActivity : IEqualish<TestUserActivity>
         {
+            private string detail;
+
+            public TestUserActivity(string detail)
+            {
+                this.detail = detail;
+            }
+
             public bool IsEqualishTo(TestUserActivity other)
             {
-                return true;
+                return this.detail.Equals(other.detail, StringComparison.CurrentCultureIgnoreCase);
             }
         }
 
-        [TestMethod]
-        public void HasCorrectInitialValues()
-        {
-            var userActivity = new UserActivityOverPeriod<TestUserActivity>();
+        private TestUserActivity testActivity1 = new TestUserActivity("Test1");
+        private TestUserActivity testActivity2 = new TestUserActivity("test1");
+        private TestUserActivity testActivity3 = new TestUserActivity("Test Activity");
+        private TestUserActivity testActivity4 = new TestUserActivity("Another Activity");
 
+        private UserActivityOverPeriod<TestUserActivity> userActivity;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            userActivity = new UserActivityOverPeriod<TestUserActivity>();
+        }
+
+        [TestCleanup]
+        public void Teardown()
+        {
+            userActivity = null;
+        }
+
+        [TestMethod]
+        public void UserActivityOverPeriod_HasCorrectInitialValues()
+        {
             userActivity.IsActiveSegment.Should().BeFalse("because no samples have been added yet");
             userActivity.TotalSecondsInSegment.Should().Be(0, "because no samples have been added yet");
             userActivity.PrimaryActivityInSegment.Should().BeNull("because no samples have been added yet");
+        }
+
+        [TestMethod]
+        public void UserActivityOverPeriod_SumOfSecondsAddsUp()
+        {
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity2);
+            userActivity.AddActiveSample(testActivity3);
+
+            userActivity.TotalSecondsInSegment.Should().Be(5, "because 5 samples have been added");
+        }
+        
+        [TestMethod]
+        public void UserActivityOverPeriod_AddNullSampleShouldThrowException()
+        {
+            Action addNullSample = () => userActivity.AddActiveSample(null);
+
+            addNullSample.ShouldThrow<ArgumentNullException>().
+                And.ParamName.Should().Be("details");
+        }
+        
+        [TestMethod]
+        public void UserActivityOverPeriod_MatchingActivityDetailsCountAsOneSample()
+        {
+            // These should count as one
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+
+            // These should count as one
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity2);
+
+            userActivity.AddActiveSample(testActivity4);
+
+            userActivity.Samples.Count.Should().Be(3, "because 3 different matching samples have been added");
+        }
+
+        [TestMethod]
+        public void UserActivityOverPeriod_PeriodCountsAsInactiveWhenMajoritySamplesAreInactive()
+        {
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity2);
+            userActivity.AddActiveSample(testActivity3);
+            userActivity.AddActiveSample(testActivity4);
+
+            userActivity.IsActiveSegment.Should().BeFalse("because we added 4 inactive samples and 4 unique samples");
+            userActivity.PrimaryActivityInSegment.Should().BeNull("because this isn't an active segment");
         }
     }
 }

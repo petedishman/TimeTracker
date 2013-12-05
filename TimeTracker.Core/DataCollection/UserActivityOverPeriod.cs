@@ -52,7 +52,6 @@ namespace TimeTracker.Core.DataCollection
             get
             {
                 UserActivity<T> primarySample = (from sample in ActivitySamples
-                                                 where sample.WasActive
                                                  orderby sample.Seconds descending
                                                  select sample).FirstOrDefault();
                 if (primarySample == null)
@@ -61,7 +60,14 @@ namespace TimeTracker.Core.DataCollection
                 }
                 else
                 {
-                    return primarySample.Details;
+                    if (primarySample.WasActive)
+                    {
+                        return primarySample.Details;
+                    }
+                    else
+                    {
+                        return default(T);
+                    }
                 }
             }
         }
@@ -88,6 +94,11 @@ namespace TimeTracker.Core.DataCollection
 
         public void AddActiveSample(T details)
         {
+            if (details == null)
+            {
+                throw new ArgumentNullException("details");
+            }
+
             // see if there's a matching sample for this process and increment the seconds count
             var matchingSample = ActivitySamples.FirstOrDefault(x => x.Details != null && x.Details.IsEqualishTo(details));
 
