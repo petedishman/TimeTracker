@@ -105,5 +105,39 @@ namespace TimeTracker.Core.Tests
             userActivity.IsActiveSegment.Should().BeFalse("because we added 4 inactive samples and 4 unique samples");
             userActivity.PrimaryActivityInSegment.Should().BeNull("because this isn't an active segment");
         }
+
+        [TestMethod]
+        public void UserActivityOverPeriod_SampleTotalsAddUpAndMatchCorrectly()
+        {
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+            userActivity.AddInactiveSample();
+
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity1);
+            userActivity.AddActiveSample(testActivity2);
+
+            userActivity.AddActiveSample(testActivity4);
+
+            userActivity.TotalSecondsInSegment.Should().Be(7, "because 7 samples have been added");
+            foreach (var sample in userActivity.Samples)
+            {
+                if (sample.WasActive)
+                {
+                    if (sample.Details.IsEqualishTo(testActivity1))
+                    {
+                        sample.Seconds.Should().Be(3, "because we added 2 other samples equalish to testActivity1");
+                    }
+                    else if (sample.Details.IsEqualishTo(testActivity4))
+                    {
+                        sample.Seconds.Should().Be(1, "because we only added 1 sample like testActivity4");
+                    }
+                }
+                else
+                {
+                    sample.Seconds.Should().Be(3, "because we added 3 inactive samples");
+                }
+            }
+        }
     }
 }
