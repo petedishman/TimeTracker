@@ -55,6 +55,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ProcessInfoTests.cs" />
+    <Compile Include="ProcessActivitySamplerTests.cs" />
+    <Compile Include="UserActivityAggregatorTests.cs" />
     <Compile Include="UserActivityOverPeriodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
