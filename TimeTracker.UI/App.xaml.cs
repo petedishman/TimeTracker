@@ -17,6 +17,13 @@ namespace TimeTracker.UI
         {
             base.OnStartup(e);
 
+
+            // so this is us starting up
+            // we need to initialise our core objects and start tracking user/process activity
+
+            // start talking to the database etc
+
+
             // need to get the mainwindow and call show on it
             // Our DI Container should get that for us.
             // maybe time to wire up ninject?

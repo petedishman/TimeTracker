@@ -61,7 +61,7 @@
     <Compile Include="Helpers\SafeNativeMethods.cs" />
     <Compile Include="IssueTracker.cs" />
     <Compile Include="DataCollection\UserActivity\ProcessInfo.cs" />
-    <Compile Include="DataCollection\ProcessActivityTimeSegment.cs" />
+    <Compile Include="DataCollection\UserActivityOverPeriod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataCollection\UserActivity.cs" />
     <Compile Include="DataCollection\UserActivity\UserActivityMonitor.cs" />
