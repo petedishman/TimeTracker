@@ -122,6 +122,11 @@ namespace TimeTracker.Core.Tests
 
             userActivity.TotalSecondsInSegment.Should().Be(8, "because 8 samples have been added");
             userActivity.PrimaryActivityInSegment.Should().Be(testActivity1, "because that's the primary activity!");
+
+            bool gotActivity1 = false;
+            bool gotActivity4 = false;
+            bool gotInactiveSample = false;
+
             foreach (var sample in userActivity.Samples)
             {
                 if (sample.WasActive)
@@ -129,17 +134,27 @@ namespace TimeTracker.Core.Tests
                     if (sample.Details.IsEqualishTo(testActivity1))
                     {
                         sample.Seconds.Should().Be(4, "because we added 3 other samples equalish to testActivity1");
+                        gotActivity1 = true;
                     }
                     else if (sample.Details.IsEqualishTo(testActivity4))
                     {
                         sample.Seconds.Should().Be(1, "because we only added 1 sample like testActivity4");
+                        gotActivity4 = true;
+                    }
+                    else
+                    {
+                        Assert.Fail("Got unexpected sample in user activity period");
                     }
                 }
                 else
                 {
                     sample.Seconds.Should().Be(3, "because we added 3 inactive samples");
+                    gotInactiveSample = true;
                 }
             }
+
+            (gotActivity1 && gotActivity4 && gotInactiveSample).
+                Should().BeTrue("because otherwise we didn't get all the samples we should have");
         }
     }
 }
