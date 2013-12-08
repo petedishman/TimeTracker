@@ -24,6 +24,7 @@ namespace TimeTracker.Core.Schema.Entities
     {
         public TimeSegment()
         {
+            // these two initialisations generate code analysis warnings due to the lists both being virtual
             AllUserActitivies = new List<UserActivityInTimeSegment>();
             AllUserHints = new List<UserHintInTimeSegment>();
         }

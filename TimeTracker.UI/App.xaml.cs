@@ -32,6 +32,13 @@ namespace TimeTracker.UI
 
             kernel = new StandardKernel(new CoreDependencyModule(), new DependencyModule());
             timeTracker = kernel.Get<TimeTrackerAgent>();
+
+            //var mainWindowViewModelFactory = kernel.Get<IMainWindowViewModelFactory>();
+
+
+            var window = kernel.Get<IWindow>();
+            window.Show();
+            // what we want is the MainWindowAdapter class back and call show on it
         }
 
         IKernel kernel;
