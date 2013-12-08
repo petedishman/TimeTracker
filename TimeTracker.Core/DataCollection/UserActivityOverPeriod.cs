@@ -11,7 +11,6 @@ namespace TimeTracker.Core.DataCollection
     // that would be periodically grabbing what I'd typed in to a text box
     // or an issue key
 
-
     public class UserActivityOverPeriod<T> where T : IEqualish<T>
     {
         public UserActivityOverPeriod()
@@ -24,6 +23,25 @@ namespace TimeTracker.Core.DataCollection
             get
             {
                 return ActivitySamples.Sum(x => x.Seconds);
+            }
+        }
+
+        public int SecondsInPrimarySegment
+        {
+            get
+            {
+                var primarySample = (from sample in ActivitySamples
+                                     orderby sample.Seconds descending
+                                     select sample).FirstOrDefault();
+
+                if (primarySample == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return primarySample.Seconds;
+                }
             }
         }
 

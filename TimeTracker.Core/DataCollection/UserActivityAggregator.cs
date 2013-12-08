@@ -20,13 +20,12 @@ namespace TimeTracker.Core.DataCollection
 
     public delegate void UserActivitySampleEventHandler(object sender, UserActivitySampleEventArgs e);
 
-    public class UserActivityAggregator : IDisposable
+    public class UserActivityAggregator : IDisposable, IUserActivityAggregator
     {
         public UserActivityAggregator(ProcessActivitySampler processActivitySampler)
         {
             // we need to fire off an event every five minutes to catch data from processActivitySampler
             // we then publish it in an event 
-
             this.processActivitySampler = processActivitySampler;
 
             this.activitySampleTimer = new Timer(OnActivitySampleTimer, null, 0, ActivitySamplePeriodMilliSeconds);

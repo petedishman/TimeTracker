@@ -56,8 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCollection\ITimeSegmentProvider.cs" />
+    <Compile Include="DataCollection\IUserActivityAggregator.cs" />
+    <Compile Include="DataCollection\TimeSegmentProvider.cs" />
     <Compile Include="DataCollection\UserActivity\ActiveProcessHelper.cs" />
     <Compile Include="DataCollection\UserActivity\ProcessActivitySampler.cs" />
+    <Compile Include="DataLogger.cs" />
     <Compile Include="Helpers\SafeNativeMethods.cs" />
     <Compile Include="IssueTracker.cs" />
     <Compile Include="DataCollection\UserActivity\ProcessInfo.cs" />
@@ -68,7 +72,7 @@
     <Compile Include="DataCollection\UserActivityAggregator.cs" />
     <Compile Include="Schema\Entities\Entities.cs" />
     <Compile Include="Schema\Infrastructure\TimeTrackerDataContext.cs" />
-    <Compile Include="Schema\Infrastructure\DomainModule.cs" />
+    <Compile Include="CoreDependencyModule.cs" />
     <Compile Include="Schema\Infrastructure\SqlDataContext.cs" />
     <Compile Include="Schema\Infrastructure\SqlRepository.cs" />
     <Compile Include="Schema\Services\IDataContext.cs" />
@@ -77,7 +81,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataCollection\UserHint\" />
