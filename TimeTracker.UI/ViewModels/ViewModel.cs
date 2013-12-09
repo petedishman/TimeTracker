@@ -6,23 +6,5 @@ using System.Threading.Tasks;
 
 namespace TimeTracker.UI.ViewModels
 {
-    class DailyActivityViewModel
-    {
 
-    }
-
-    class DailyActivityDayPickerViewModel
-    {
-
-    }
-
-    class DailyStatsViewModel
-    {
-
-    }
-
-    class CurrentActivityViewModel
-    {
-
-    }
 }

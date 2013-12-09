@@ -59,7 +59,14 @@ namespace TimeTracker.Core
             foreach (var sample in userActivity.Samples)
             {
                 var activity = new UserActivityInTimeSegment(currentTimeSegment);
-                activity.Activity = new UserActivity(sample.WasActive, sample.Seconds, sample.Details.Name, sample.Details.WindowTitle);
+                if (sample.WasActive)
+                {
+                    activity.Activity = new UserActivity(true, sample.Seconds, sample.Details.Name, sample.Details.WindowTitle);
+                }
+                else
+                {
+                    activity.Activity = new UserActivity(false, sample.Seconds, "", "");
+                }
 
                 newTimeSegment.AllUserActitivies.Add(activity);
             }
