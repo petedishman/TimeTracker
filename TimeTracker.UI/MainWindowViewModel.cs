@@ -14,7 +14,16 @@ namespace TimeTracker.UI
         public MainWindowViewModel(IWindow window)
         {
             this.window = window;
+
+            CurrentDate = DateTime.Now.Subtract(TimeSpan.FromDays(1));
+            var activities = new List<TimeSegmentActivityViewModel>();
+            activities.Add(new TimeSegmentActivityViewModel() { StartOfTimeSegment = new DateTime(2013, 12, 18, 22, 0, 0), PrimaryProcessName = "procexp.exe", PrimaryProcessWindowTitle = "Stuff", PrimaryUserHint = ""});
+            TimeSegmentActivities = activities;
         }
+
+        public DateTime CurrentDate { get; set; }
+
+        public IEnumerable<TimeSegmentActivityViewModel> TimeSegmentActivities { get; set; }
 
         private DateTime date;
         private readonly ObservableCollection<TimeSegmentActivityViewModel> activities;
@@ -27,12 +36,12 @@ namespace TimeTracker.UI
 
         }
 
-        public DateTime StartOfTimeSegment { get; private set; }
+        public DateTime StartOfTimeSegment { get;  set; }
         // the issue we're logging this timesegment against
 
-        public string PrimaryProcessName { get; private set; }
-        public string PrimaryProcessWindowTitle { get; private set; }
+        public string PrimaryProcessName { get;  set; }
+        public string PrimaryProcessWindowTitle { get;  set; }
 
-        public string PrimaryUserHint { get; private set; }
+        public string PrimaryUserHint { get;  set; }
     }
 }

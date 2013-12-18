@@ -3,6 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="0">
+            <Calendar VerticalAlignment="Top" SelectionMode="SingleDate" SelectedDate="{Binding CurrentDate}">
+                
+            </Calendar>
+        </StackPanel>
+        <DataGrid Grid.Column="1" ItemsSource="{Binding TimeSegmentActivities}">
+            
+        </DataGrid>
     </Grid>
 </Window>
