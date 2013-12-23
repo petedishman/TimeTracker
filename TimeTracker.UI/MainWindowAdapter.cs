@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace TimeTracker.UI
 {
-    public class MainWindowAdapter : WindowAdapter
+    class MainWindowAdapter : WindowAdapter
     {
         private readonly IMainWindowViewModelFactory vmFactory;
         private bool initialized;

@@ -12,8 +12,6 @@
                 
             </Calendar>
         </StackPanel>
-        <DataGrid Grid.Column="1" ItemsSource="{Binding TimeSegmentActivities}">
-            
-        </DataGrid>
+        <DataGrid Grid.Column="1" ItemsSource="{Binding TimeSegmentActivities}" SelectionMode="Single"/>
     </Grid>
 </Window>

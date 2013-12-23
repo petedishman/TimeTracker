@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeTracker.UI
 {
-    public interface IMainWindowViewModelFactory
+    interface IMainWindowViewModelFactory
     {
         MainWindowViewModel Create(IWindow window);
     }
