@@ -1,0 +1,127 @@
+TimeTracker
+
+
+Core
+
+ProcessInfo
+	Data class providing info on a running process
+	Properties:
+		Name			- Name of the process, e.g. textpad.exe
+		Window Title
+
+ActiveProcessHelper : IActiveProcessHelper
+	ProcessInfo GetActiveProcess
+		returns the currently active process, i.e. the one with focus
+
+UserActivityMonitor : IUserActivityMonitor
+	Create one of these and it has two properties that'll tell you when the user
+	was last active, i.e. typed something or used the mouse
+	Properties:
+		LastUserActivityAt - DateTime
+		SecondsSinceLastUserActivity - int
+
+ProcessActivitySampler
+	This class takes an ActiveProcessHelper and a UserActivityMonitor in the constructor
+	It starts logging the active process every second, if the user has been active recently.
+
+	Constructor (IUserActivityMonitor, IActiveProcessHelper)
+
+	UserActivityOverPeriod<ProcessInfo> StartNewTimeSegment()
+		Returns the already logged data and starts logging more.
+		Intention is that the client will call this repeatedly at a specific interval.
+
+		Why isn't it just firing an event itself with the data?
+		That seems more sensible.
+
+TimeSegmentProvider : ITimeSegmentProvider
+	Properties:
+		CurrentTimeSegment - DateTime - Returns the current 5 minute segment of the day regardless of when you call it
+										So, call at 15:45:57, it'll return 15:45:00
+
+UserActivityAggregator
+	Uses a ProcessActivitySampler to periodically get activity data and fire an event with it all
+	packaged up.
+	It will fire every 5 minutes and collect data from it's ProcessActivitySampler
+	Then fire the event with the collected data.
+
+	Event:
+		UserActivitySampleReady - UserActivitySampleEventArgs
+
+UserActivitySampleEventArgs
+	Properties:
+		ProcessActivity - UserActivityOverPeriod<ProcessInfo>
+
+UserActivity<T> 
+	Wrapper Class for T
+	Properties:
+		WasActive - bool
+		Seconds - int
+		Details - T
+
+UserActivityOverPeriod<T>
+	Class for tracking what a user's been up to in a certain time period.
+
+	Don't like the fact that the methods for filling in the object are part of it
+	Since we're giving it to people and expecting them not to call it.
+	Should probably split in to two, one class for creating it, and then an immutable class
+	with just the data in it
+
+	methods:
+		AddInactiveSample()
+		AddActiveSample(T)
+
+	Properties:
+		TotalSecondsInSegment - int - How many seconds do we have data for - Should normally be 300
+		SecondsInPrimarySegment - int - How long is the primary segment
+		IsActiveSegment - bool - Was the longest segment an active one
+		PrimaryActivityInSegment - T - Get the activity details for the primary activity, null if inactive segment
+		Samples - IReadyOnlyList<UserActivity<T>> - Get all the activity details for this segment
+
+DataLogger
+	Uses a UserActivityAggregator to get notified when activity data is available and logs it all in the database
+
+
+Database Classes
+
+TimeSegment
+	Properties:
+		StartOfTimeSegment - Datetime
+		PrimaryUserActivity - UserActivity
+		PrimaryUserHint - UserHint
+		AllUserActivities - List<UserActivityInTimeSegment>
+		AllUserHints - List<UserHintInTimeSegment>
+
+		I don't really want to be using User(Activity|Hint)InTimeSegment
+		as that's just annoying, and is purely to get the Db right?
+		That shouldn't be necessary should it?
+		They should just be able to join on an Id or something
+		Should definitely look at that before doing much more
+
+UserActivity
+	Properties:
+		WasActive - bool
+		Seconds - int
+		ProcessName - string
+		WindowTitle - string
+
+UserHint
+	Properties:
+		WasActive - bool
+		Seconds - int
+		IssueKey - string
+		IssueTitle - string
+		HintText - string
+
+TimeSegmentDetails
+	Properties:
+		Id - long
+		StartOfTimeSegment - Datetime
+
+UserActivityInTimeSegment : TimeSegmentDetails
+	Properties:
+		Activity - UserActivity
+
+UserHintInTimeSegment : TimeSegmentDetails
+	Properties:
+		Hint - UserHint
+
