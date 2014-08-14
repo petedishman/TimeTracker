@@ -1,0 +1,44 @@
+
+Every 5 Minute Period of the Day log what we were doing
+
+
+1 row for every 5 minute period of every day
+
+id,
+date,
+timeSegment (0-287)
+
+Primary Activity
+wasActive
+seconds
+processName
+windowTitle
+
+
+Primary Hint
+
+seconds
+issueKey
+issueTitle
+hintText
+
+
+
+
+full details for every 5 minute period (probably keep 4 weeks worth or something)
+so, that's every process logged in every 5 minute period
+
+id
+seconds
+processName
+windowTitle
+
+id
+seconds
+issueKey
+issueTitle
+hintText
+
+
+
+

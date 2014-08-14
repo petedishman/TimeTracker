@@ -1,0 +1,44 @@
+Stop trying to be so generic with the basic structure, we're never going to start logging anything else.
+Just stick to what we need without it being ridiculously complex/generic unnecessarily.
+
+
+For every 5 minute period of the day
+
+
+Date							- Date this is for
+TimeSegment 0..(24*60)/5		- TimeSegment of the day, i.e. 0 starts at 00:00, 287 is 23:55
+WasUserActive					- True if user was at computer doing stuff (did something within 5 minutes) - may not need to be in db PrimaryProcess = null instead
+PrimaryProcess					- Assuming they were active this is the process that was running the most in this 5 minutes
+PrimaryWindowTitle				- Assuming they were active this is the title of the active window of PrimaryProcess
+PrimaryActivityDuration			- How long the primary process was running for
+IssueKey						- Jira issue assigned to this 5 minute segment, can be updated up till submitted to jira
+IssueTitle						- Title of the jira issue
+Hint							- The hint that the user may have specified for this period
+Submitted 						- Has this section been submitted to jira - stops you from editing the issue
+
+
+So should we bother storing the details, i.e. the other processes that were running
+the other jira issues that may have been specified
+any other hints
+
+or do we just store the most recent / longest selected one
+
+Tempting to just store the latest - how accurate do we need to be?
+
+
+
+Program Structure
+
+We view a day of data at a time
+
+
+
+Every 5 minutes we'll get data on user activity / active process etc
+We'll also grab the current hint and selected issue key (this is where we could extend this to average them out)
+
+This can then be added to todays list, and written to the db.
+
+We then have data loaded in for whatever day is selected, editable in the ui too 
+
+All of this needs to be handled by the core dll
+
