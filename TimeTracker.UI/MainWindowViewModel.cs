@@ -97,6 +97,7 @@ namespace TimeTracker.UI
         private const int FiveMinuteSegmentsInADay = 288; // seconds in day = 86400, divided by 300 = 288
         private const int SecondsInFiveMinutes = 300;
         private static List<TimeSegmentActivityViewModel> EmptySingleDayTimeSegmentList = null;
+
         private static IReadOnlyList<TimeSegmentActivityViewModel> GetEmptyDailyActivityList()
         {
             if (EmptySingleDayTimeSegmentList == null)
@@ -126,7 +127,7 @@ namespace TimeTracker.UI
             var existingActivity = activities.Where(x => x.StartOfTimeSegment.TimeOfDay == timeSegment.StartOfTimeSegment.TimeOfDay).FirstOrDefault();
             if (existingActivity != null)
             {
-                existingActivity.what?
+                //existingActivity.what?
             }
         }
 
