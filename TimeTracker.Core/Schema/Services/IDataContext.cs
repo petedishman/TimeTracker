@@ -8,7 +8,7 @@ namespace TimeTracker.Core.Schema.Services
 {
 	public interface IDataContext
 	{
-        IRepository<TimeSegment> TimeSegments { get; }
+        IRepository<TimeSlice> TimeSlices { get; }
 
 		void Commit();
 	}

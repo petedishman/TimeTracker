@@ -4,6 +4,7 @@ Just stick to what we need without it being ridiculously complex/generic unneces
 
 For every 5 minute period of the day
 
+Let's call it a timeslice
 
 Date							- Date this is for
 TimeSegment 0..(24*60)/5		- TimeSegment of the day, i.e. 0 starts at 00:00, 287 is 23:55
@@ -13,7 +14,7 @@ PrimaryWindowTitle				- Assuming they were active this is the title of the activ
 PrimaryActivityDuration			- How long the primary process was running for
 IssueKey						- Jira issue assigned to this 5 minute segment, can be updated up till submitted to jira
 IssueTitle						- Title of the jira issue
-Hint							- The hint that the user may have specified for this period
+Hint							- The hint that the user may have specified for this period (just a string description)
 Submitted 						- Has this section been submitted to jira - stops you from editing the issue
 
 

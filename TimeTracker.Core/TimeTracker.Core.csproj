@@ -71,6 +71,7 @@
     <Compile Include="DataCollection\UserActivity\UserActivityMonitor.cs" />
     <Compile Include="DataCollection\UserActivityAggregator.cs" />
     <Compile Include="Schema\Entities\Entities.cs" />
+    <Compile Include="Schema\Entities\TimeSlice.cs" />
     <Compile Include="Schema\Infrastructure\TimeTrackerDataContext.cs" />
     <Compile Include="CoreDependencyModule.cs" />
     <Compile Include="Schema\Infrastructure\SqlDataContext.cs" />

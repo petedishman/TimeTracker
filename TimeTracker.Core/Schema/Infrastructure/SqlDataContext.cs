@@ -14,15 +14,15 @@ namespace TimeTracker.Core.Schema.Infrastructure
 			_context = new TimeTrackerDataContext();
 		}
         
-		public IRepository<TimeSegment> TimeSegments
+		public IRepository<TimeSlice> TimeSlices
 		{
 			get
 			{
-                if (_timeSegments == null)
+                if (_timeSlices == null)
 				{
-                    _timeSegments = new SqlRepository<TimeSegment>(_context.TimeSegments, _context);
+                    _timeSlices = new SqlRepository<TimeSlice>(_context.TimeSlices, _context);
 				}
-                return _timeSegments;
+                return _timeSlices;
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace TimeTracker.Core.Schema.Infrastructure
 			_context.SaveChanges();
 		}
 
-		SqlRepository<TimeSegment> _timeSegments = null;
+		SqlRepository<TimeSlice> _timeSlices = null;
 
 		readonly TimeTrackerDataContext _context;
 

@@ -12,7 +12,6 @@ namespace TimeTracker.Core.Schema.Infrastructure
 		public TimeTrackerDataContext()
 			: base("TimeTracker")
 		{
-	
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -20,6 +19,6 @@ namespace TimeTracker.Core.Schema.Infrastructure
 			base.OnModelCreating(modelBuilder);
 		}
 
-		public DbSet<TimeSegment> TimeSegments { get; set; }
+		public DbSet<TimeSlice> TimeSlices { get; set; }
 	}
 }
