@@ -27,12 +27,24 @@ namespace TimeTracker.Core.DataCollection.UserActivity
             return base.GetHashCode();
         }
 
+        private string RemoveUnsavedDocumentFlags()
+        {
+            return WindowTitle.TrimEnd(new [] {' ', '*'});
+        }
+
         public bool IsEqualishTo(ProcessInfo other)
         {
             // we could do some clever matching on window titles
             // like ignoring * for unsaved files and stuff
             // for now though, we'll just do a straight equals check
-            return Equals(other);
+
+            if (other.Name == this.Name &&
+                other.RemoveUnsavedDocumentFlags() == this.RemoveUnsavedDocumentFlags())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool Equals(ProcessInfo other)
