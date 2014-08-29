@@ -72,20 +72,14 @@ namespace TimeTracker.Core.DataCollection
                 UserActivity<T> primarySample = (from sample in ActivitySamples
                                                  orderby sample.Seconds descending
                                                  select sample).FirstOrDefault();
-                if (primarySample == null)
+                if (primarySample == null ||
+                    !primarySample.WasActive)
                 {
                     return default(T);
                 }
                 else
                 {
-                    if (primarySample.WasActive)
-                    {
-                        return primarySample.Details;
-                    }
-                    else
-                    {
-                        return default(T);
-                    }
+                    return primarySample.Details;
                 }
             }
         }

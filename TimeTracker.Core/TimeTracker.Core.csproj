@@ -78,6 +78,7 @@
     <Compile Include="CoreDependencyModule.cs" />
     <Compile Include="Schema\Infrastructure\SqlDataContext.cs" />
     <Compile Include="Schema\Infrastructure\SqlRepository.cs" />
+    <Compile Include="Schema\Infrastructure\TimeTrackerInitializer.cs" />
     <Compile Include="Schema\Services\IDataContext.cs" />
     <Compile Include="Schema\Services\IRepository.cs" />
   </ItemGroup>

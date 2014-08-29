@@ -14,7 +14,7 @@ namespace TimeTracker.Core.Schema.Entities
         public bool WasUserActive { get; set; }
         public string PrimaryProcess { get; set; }
         public string PrimaryWindowTitle { get; set; }
-        public int PrimaryActivityDuration { get; set; }
+        public int? PrimaryActivityDuration { get; set; }
         public string IssueKey { get; set; }
         public string IssueTitle { get; set; }
         public string Hint { get; set; }

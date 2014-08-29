@@ -12,6 +12,7 @@ namespace TimeTracker.Core.Schema.Infrastructure
 		public TimeTrackerDataContext()
 			: base("TimeTracker")
 		{
+            Database.SetInitializer<TimeTrackerDataContext>(new TimeTrackerInitializer());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -31,15 +31,14 @@ namespace TimeTracker.Core
             // for whatever the current time segment is
 
             // This is going to need some exception handling
-
-            TimeSegment newTimeSegmentData = GetTimeSegmentData(e.ProcessActivity);
+            TimeSlice timeSlice = GetTimeSliceFromUserActivitySample(e.ProcessActivity);
 
 
             // TODO:
             // This will fail (won't it?) when there's already data recorded for this time segment
             // which should be possible to get when starting up multiple times? maybe? possibly not?
             // because we'd be triggered in 5 minutes time, so that should be a different segment?
-            //this.dataContext.TimeSegments.Add(newTimeSegmentData);
+            this.dataContext.TimeSlices.Add(timeSlice);
             this.dataContext.Commit();
 
             // TODO
@@ -48,45 +47,27 @@ namespace TimeTracker.Core
             // the UI can listen for that.
         }
 
-        TimeSegment GetTimeSegmentData(UserActivityOverPeriod<ProcessInfo> userActivity)
+        TimeSlice GetTimeSliceFromUserActivitySample(UserActivityOverPeriod<ProcessInfo> userActivity)
         {
-            var newTimeSegment = new TimeSegment();
+            var newTimeSlice = new TimeSlice();
             var currentTimeSegment = this.timeSegmentProvider.CurrentTimeSegment;
 
-            newTimeSegment.StartOfTimeSegment = currentTimeSegment;
+            newTimeSlice.Date = this.timeSegmentProvider.CurrentTimeSegment;
 
-            // argh I don't have any time info for this!!!!
             if (userActivity.IsActiveSegment)
             {
-                var primaryActivity = userActivity.PrimaryActivityInSegment;
-                newTimeSegment.PrimaryUserActivity = UserActivity.ActiveSample( userActivity.SecondsInPrimarySegment, 
-                                                                                primaryActivity.Name, 
-                                                                                primaryActivity.WindowTitle);
+                newTimeSlice.PrimaryProcess = userActivity.PrimaryActivityInSegment.Name;
+                newTimeSlice.PrimaryWindowTitle = userActivity.PrimaryActivityInSegment.WindowTitle;
+                newTimeSlice.PrimaryActivityDuration = userActivity.SecondsInPrimarySegment;
             }
             else
             {
-                newTimeSegment.PrimaryUserActivity = UserActivity.InactiveSample(userActivity.SecondsInPrimarySegment);
+                newTimeSlice.PrimaryActivityDuration = null;
+                newTimeSlice.PrimaryProcess = null;
+                newTimeSlice.PrimaryWindowTitle = null;
             }
-
-            newTimeSegment.PrimaryUserHint = new UserHint();
-
-            // add all process samples
-            foreach (var sample in userActivity.Samples)
-            {
-                var activity = new UserActivityInTimeSegment(currentTimeSegment);
-                if (sample.WasActive)
-                {
-                    activity.Activity = new UserActivity(true, sample.Seconds, sample.Details.Name, sample.Details.WindowTitle);
-                }
-                else
-                {
-                    activity.Activity = new UserActivity(false, sample.Seconds, "", "");
-                }
-
-                newTimeSegment.AllUserActitivies.Add(activity);
-            }
-            
-            return newTimeSegment;
+ 
+            return newTimeSlice;
         }
         
         private IDataContext dataContext;
