@@ -1,5 +1,7 @@
 #TimeTracker
 
+[![Build status](https://ci.appveyor.com/api/projects/status/jtaxvyplyvc3ovus/branch/master)](https://ci.appveyor.com/project/petedishman/timetracker/branch/master)
+
 TimeTracker is (surprisingly) a time tracking tool to help developers log what they do in order 
 to fill in an external Timesheet.
 
