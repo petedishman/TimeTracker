@@ -39,7 +39,7 @@ namespace TimeTracker.Core
             // This will fail (won't it?) when there's already data recorded for this time segment
             // which should be possible to get when starting up multiple times? maybe? possibly not?
             // because we'd be triggered in 5 minutes time, so that should be a different segment?
-            this.dataContext.TimeSegments.Add(newTimeSegmentData);
+            //this.dataContext.TimeSegments.Add(newTimeSegmentData);
             this.dataContext.Commit();
 
             // TODO

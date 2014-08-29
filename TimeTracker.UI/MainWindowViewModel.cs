@@ -24,7 +24,7 @@ namespace TimeTracker.UI
 
             date = DateTime.Now.Subtract(TimeSpan.FromDays(1));
             PropertyChanged += OnPropertyChanged;
-            activities = new List<TimeSegmentActivityViewModel>(GetDefaultList());
+            //activities = new List<TimeSegmentActivityViewModel>(GetDefaultList());
         }
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -39,12 +39,12 @@ namespace TimeTracker.UI
 
         private void LoadDataForDate(DateTime date)
         {
-            var newActivityList = new List<TimeSegmentActivityViewModel>(GetDefaultList());
-            var timeSegments = dataContext.TimeSegments.FindWhere(x => x.StartOfTimeSegment.Date == date.Date);
+            var newActivityList = new List<TimeSegmentActivityViewModel>();//GetDefaultList());
+            /*var timeSegments = dataContext.TimeSegments.FindWhere(x => x.StartOfTimeSegment.Date == date.Date);
             if (timeSegments != null)
             {
                 // for each of these initialise our list
-            }
+            }*/
 
             activities = newActivityList;
         }
