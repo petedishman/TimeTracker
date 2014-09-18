@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/petedishman/timetracker.png?label=ready&title=Ready)](https://waffle.io/petedishman/timetracker)
 #TimeTracker
 
 [![Build status](https://ci.appveyor.com/api/projects/status/jtaxvyplyvc3ovus/branch/master)](https://ci.appveyor.com/project/petedishman/timetracker/branch/master)
