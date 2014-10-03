@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Atlassian.Jira;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,6 +19,22 @@ namespace TimeTracker.ScratchPad
     {
         static void Main(string[] args)
         {
+            var jira = new Jira("http://jira/", "pete.dishman", "56Kilkea");
+
+            var issues = from i in jira.Issues
+                         where i.Assignee == "pete.dishman"
+                            && i.Status == "Open"
+                         orderby i.Key
+                         select i;
+
+            foreach (var i in issues)
+            {
+                Console.WriteLine(i.Summary);
+                // you can add worklogs to an issue easily, which means we can log time directly in to jira
+                // need to extend the api of the jira code though to allow us to specify the starttime of the worklog
+                // the internal part of the api exposes it, so that should be trivial
+                //i.AddWorklog()
+            }
         }
     }
 }
