@@ -73,6 +73,7 @@
     <Compile Include="DataCollection\UserActivity\ActiveProcessHelper.cs" />
     <Compile Include="DataCollection\UserActivity\ProcessActivitySampler.cs" />
     <Compile Include="DataLogger.cs" />
+    <Compile Include="EventBus.cs" />
     <Compile Include="Helpers\SafeNativeMethods.cs" />
     <Compile Include="IssueTracker.cs" />
     <Compile Include="DataCollection\UserActivity\ProcessInfo.cs" />

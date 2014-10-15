@@ -163,3 +163,4 @@ $RECYCLE.BIN/
 /amps-standalone/target
 # All nuget packages
 /packages/*
+/TimeTracker.sln.ide

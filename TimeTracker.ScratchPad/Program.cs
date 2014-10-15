@@ -1,4 +1,5 @@
 ﻿using Atlassian.Jira;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,26 @@ using TimeTracker.Core.Schema.Services;
 
 namespace TimeTracker.ScratchPad
 {
+    class TimeTrackerAgent
+    {
+        public TimeTrackerAgent(DataLogger dataLogger)
+        {
+            this.dataLogger = dataLogger;
+            
+        }
+
+        private DataLogger dataLogger;
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
+            var kernel = new StandardKernel(new CoreDependencyModule());
+            var timeTracker = kernel.Get<TimeTrackerAgent>();
+
+
+            /*
             var jira = new Jira("http://jira/", "pete.dishman", "56Kilkea");
 
             var issues = from i in jira.Issues
@@ -35,6 +52,7 @@ namespace TimeTracker.ScratchPad
                 // the internal part of the api exposes it, so that should be trivial
                 //i.AddWorklog()
             }
+            */
         }
     }
 }

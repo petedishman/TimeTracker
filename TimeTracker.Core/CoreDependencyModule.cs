@@ -21,6 +21,8 @@ namespace TimeTracker.Core
             Bind<IActiveProcessHelper>().To<ActiveProcessHelper>();
 
             Bind<DataLogger>().ToSelf();
+
+            Bind<EventBus>().ToSelf().InSingletonScope();
         }
     }
 }

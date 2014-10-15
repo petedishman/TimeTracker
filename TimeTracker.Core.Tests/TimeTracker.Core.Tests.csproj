@@ -57,6 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EventBusTests.cs" />
     <Compile Include="ProcessInfoTests.cs" />
     <Compile Include="ProcessActivitySamplerTests.cs" />
     <Compile Include="UserActivityAggregatorTests.cs" />
